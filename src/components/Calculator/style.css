@@ -1,0 +1,17 @@
+button {
+    margin: 6px 0px 6px 0px !important;
+}
+
+input[type="text"] {
+    margin: 6px 0px 6px 0px !important;
+}
+
+#container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #59C6F1;
+}
