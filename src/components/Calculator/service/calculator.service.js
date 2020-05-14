@@ -44,6 +44,8 @@ function CalculatorService () {
     if (concatNum === '.' && atualNum.indexOf('.') > -1) {
       return atualNum;
     }
+
+    return atualNum + concatNum;
   }
 
   return [calculate, concatNumber, Op];

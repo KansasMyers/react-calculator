@@ -3,15 +3,62 @@ import './style.css';
 
 import { Jumbotron, Container, Row, Col, Button, Form } from 'react-bootstrap';
 
+import CalculatorService from './service/calculator.service';
+
 function Calculator () {
+  // eslint-disable-next-line
+  const [calculate, concatNumber, Op] = CalculatorService();
+
   const [txtNumbers, setTxtNumbers] = useState('0');
+  const [number1, setNumber1] = useState('0');
+  const [number2, setNumber2] = useState(null);
+  const [operation, setOperation] = useState(null);
 
   function addNumber (number) {
-    setTxtNumbers(txtNumbers + number);
+    let result;
+
+    if (operation === null) {
+      result = concatNumber(number1, number);
+      setNumber1(result);
+    } else {
+      result = concatNumber(number2, number);
+      setNumber2(result);
+    }
+
+    setTxtNumbers(result);
   }
 
-  function defOperation (operation) {
-    setTxtNumbers(operation);
+  function defOperation (op) {
+    // define operation if is null
+    if (operation === null) {
+      setOperation(op);
+      return;
+    }
+
+    // if operation is not null and number2 not null process calc
+    if (number2 !== null) {
+      const result = calculate(parseFloat(number1), parseFloat(number2), operation);
+      setOperation(op);
+      setNumber1(result.toString());
+      setNumber2(null);
+      setTxtNumbers(result.toString());
+    }
+  }
+
+  function actionCalculate() {
+    if (number2 === null) {
+      return;
+    }
+
+    const result = calculate(parseFloat(number1), parseFloat(number2), operation);
+    setTxtNumbers(result);
+  }
+
+  function clear() {
+    setTxtNumbers('0');
+    setNumber1('0');
+    setNumber2(null);
+    setOperation(null);
   }
 
   return (
@@ -26,10 +73,10 @@ function Calculator () {
         <Container fluid>
           <Row>
             <Col xs={3}>
-              <Button variant={"danger"} block>C</Button>
+              <Button onClick={clear} variant={"danger"} block>C</Button>
             </Col>
             <Col xs={9}>
-              <Form.Control type={"text"} name={"txtNumbers"} class={"text-right"} readOnly={true} value={txtNumbers}></Form.Control>
+              <Form.Control type={"text"} name={"txtNumbers"} className={"text-right"} readOnly={true} value={txtNumbers}></Form.Control>
             </Col>
           </Row>
           <Row>
@@ -79,10 +126,10 @@ function Calculator () {
               <Button onClick={() => addNumber('0')} variant={"light"} block>0</Button>
             </Col>
             <Col>
-              <Button variant={"light"} block>.</Button>
+              <Button onClick={() => addNumber('.')} variant={"light"} block>.</Button>
             </Col>
             <Col>
-              <Button variant={"success"} block>=</Button>
+              <Button onClick={actionCalculate} variant={"success"} block>=</Button>
             </Col>
             <Col>
               <Button onClick={() => defOperation('+')} variant={"warning"} block>+</Button>
