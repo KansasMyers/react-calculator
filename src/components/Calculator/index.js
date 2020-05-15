@@ -6,7 +6,6 @@ import { Jumbotron, Container, Row, Col, Button, Form } from 'react-bootstrap';
 import CalculatorService from './service/calculator.service';
 
 function Calculator () {
-  // eslint-disable-next-line
   const [calculate, concatNumber, Op] = CalculatorService();
 
   const [txtNumbers, setTxtNumbers] = useState('0');
@@ -76,7 +75,7 @@ function Calculator () {
               <Button onClick={clear} variant={"danger"} block>C</Button>
             </Col>
             <Col xs={9}>
-              <Form.Control type={"text"} name={"txtNumbers"} className={"text-right"} readOnly={true} value={txtNumbers}></Form.Control>
+              <Form.Control type={"text"} name={"txtNumbers"} className="text-right" readOnly={true} value={txtNumbers} data-testid="txtNumbers"></Form.Control>
             </Col>
           </Row>
           <Row>
@@ -90,7 +89,7 @@ function Calculator () {
               <Button onClick={() => addNumber('9')} variant={"light"} block>9</Button>
             </Col>
             <Col>
-              <Button onClick={() => defOperation('/')} variant={"warning"} block>/</Button>
+              <Button onClick={() => defOperation(Op.DIV)} variant={"warning"} block>/</Button>
             </Col>
           </Row>
           <Row>
@@ -104,7 +103,7 @@ function Calculator () {
               <Button onClick={() => addNumber('6')} variant={"light"} block>6</Button>
             </Col>
             <Col>
-              <Button onClick={() => defOperation('*')} variant={"warning"} block>*</Button>
+              <Button onClick={() => defOperation(Op.MUL)} variant={"warning"} block>*</Button>
             </Col>
           </Row>
           <Row>
@@ -118,7 +117,7 @@ function Calculator () {
               <Button onClick={() => addNumber('3')} variant={"light"} block>3</Button>
             </Col>
             <Col>
-              <Button onClick={() => defOperation('-')} variant={"warning"} block>-</Button>
+              <Button onClick={() => defOperation(Op.SUB)} variant={"warning"} block>-</Button>
             </Col>
           </Row>
           <Row>
@@ -132,7 +131,7 @@ function Calculator () {
               <Button onClick={actionCalculate} variant={"success"} block>=</Button>
             </Col>
             <Col>
-              <Button onClick={() => defOperation('+')} variant={"warning"} block>+</Button>
+              <Button onClick={() => defOperation(Op.SUM)} variant={"warning"} block>+</Button>
             </Col>
           </Row>
         </Container>
